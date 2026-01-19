@@ -1,26 +1,23 @@
 import marimo
 
 __generated_with = "0.19.4"
-app = marimo.App(width="medium")
+app = marimo.App(width="medium", layout_file="layouts/dashboard.grid.json")
 
 
 @app.cell
 def _():
     import marimo as mo
-    import pyodide.http
-    import altair as alt
-    return alt, mo, pyodide
+    return (mo,)
 
 
 @app.cell
-async def _(pyodide):
-    res = await pyodide.http.pyfetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTSaXarmKB4RWMlpEDueeMBnwp4_BYJDUwTgBvhqCQ_-hpco9-fa7yZrAIr0T-TIA/pub?output=csv')
-    with open('/organizations.csv', 'wb') as f:
-        f.write(await res.bytes())
-
-    res = await pyodide.http.pyfetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQwM24DIUWmqbjxaAy62w9w8gNpOMSg5sxmFro-OexCeMzIlyUJh5iVVsVxyrcLkQ/pub?output=csv')
-    with open('/repositories.csv', 'wb') as f:
-        f.write(await res.bytes())
+def _(mo):
+    _df = mo.sql(
+        f"""
+        INSTALL excel;
+        LOAD excel;
+        """
+    )
     return
 
 
@@ -28,7 +25,7 @@ async def _(pyodide):
 def _(mo):
     organizations = mo.sql(
         f"""
-        select * from read_csv('/organizations.csv')
+        select * from read_xlsx('https://docs.google.com/spreadsheets/d/e/2PACX-1vTSaXarmKB4RWMlpEDueeMBnwp4_BYJDUwTgBvhqCQ_-hpco9-fa7yZrAIr0T-TIA/pub?output=xlsx');
         """
     )
     return (organizations,)
@@ -38,7 +35,7 @@ def _(mo):
 def _(mo):
     repositories = mo.sql(
         f"""
-        select * from read_csv('/repositories.csv')
+        select * from read_xlsx('https://docs.google.com/spreadsheets/d/e/2PACX-1vQwM24DIUWmqbjxaAy62w9w8gNpOMSg5sxmFro-OexCeMzIlyUJh5iVVsVxyrcLkQ/pub?output=xlsx');
         """
     )
     return (repositories,)
@@ -52,6 +49,12 @@ def _(mo, organizations, repositories):
         """
     )
     return (df,)
+
+
+@app.cell
+def _():
+    import altair as alt
+    return (alt,)
 
 
 @app.cell
