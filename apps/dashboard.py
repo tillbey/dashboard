@@ -15,9 +15,9 @@ app = marimo.App(width="medium")
 @app.cell
 def _():
     import marimo as mo
-    # import pyodide.http
+    import pyodide.http
     import altair as alt
-    return alt, mo
+    return alt, mo, pyodide
 
 
 @app.cell
