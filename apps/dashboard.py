@@ -1,15 +1,23 @@
+# /// script
+# requires-python = ">=3.13"
+# dependencies = [
+#     "marimo>=0.19.0",
+#     "pyzmq",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.19.4"
-app = marimo.App(width="medium")
+app = marimo.App(width="medium", layout_file="layouts/dashboard.grid.json")
 
 
 @app.cell
 def _():
     import marimo as mo
-    import pyodide.http
+    # import pyodide.http
     import altair as alt
-    return alt, mo, pyodide
+    return alt, mo
 
 
 @app.cell
