@@ -20,8 +20,8 @@ def _():
     import marimo as mo
     import polars as pl
     import altair as alt
-    # import pyodide.http
-    return alt, mo, pl
+    import pyodide.http
+    return alt, mo, pl, pyodide
 
 
 @app.cell
