@@ -84,12 +84,12 @@ def _(alt, get_state, journals, mo, set_state):
         .mark_bar()
         .encode(
             x=alt.X(field='DOAJ - Year OA', type='quantitative'),
-            y=alt.Y(aggregate='count', type='quantitative'),
+            y=alt.Y(aggregate='count', type='quantitative', title='Number of journals'),
             color=alt.Color(field='Model', type='nominal'),
             tooltip=[
-                alt.Tooltip(field='DOAJ - Year OA', format=',.0f'),
-                alt.Tooltip(aggregate='count'),
-                alt.Tooltip(field='Model')
+                alt.Tooltip(field='DOAJ - Year OA', format='.0f'),
+                alt.Tooltip(field='Model'),
+                alt.Tooltip(aggregate='count', title='Number of journals')
             ]
         )
         .properties(height=300, width=300),
@@ -107,9 +107,9 @@ def _(alt, get_state, journals, mo, set_state):
             color=alt.Color(field='OpenAlex - domain', type='nominal'),
             theta=alt.Theta(aggregate='count', type='quantitative'),
             tooltip=[
-                alt.Tooltip(aggregate='count'),
                 alt.Tooltip(field='OpenAlex - domain'),
-                alt.Tooltip(field='Journal Title')
+                alt.Tooltip(aggregate='count', title='Number of journals'),
+                # alt.Tooltip(field='Journal Title')
             ]
         )
         .properties(height=300, width=300),
@@ -127,7 +127,7 @@ def _(alt, get_state, journals, mo, set_state):
             color=alt.Color(field='Publisher', type='nominal'),
             theta=alt.Theta(aggregate='count', type='quantitative'),
             tooltip=[
-                alt.Tooltip(aggregate='count'),
+                # alt.Tooltip(aggregate='count'),
                 alt.Tooltip(field='Publisher'),
                 alt.Tooltip(field='Journal Title')
             ]
@@ -147,9 +147,9 @@ def _(alt, get_state, journals, mo, set_state):
             color=alt.Color(field='Technical platform', type='nominal'),
             theta=alt.Theta(aggregate='count', type='quantitative'),
             tooltip=[
-                alt.Tooltip(aggregate='count'),
                 alt.Tooltip(field='Technical platform'),
-                alt.Tooltip(field='Publisher')
+                alt.Tooltip(aggregate='count', title='Number of journals'),
+                # alt.Tooltip(field='Publisher')
             ]
         )
         .properties(height=300, width=300),
